@@ -2,6 +2,7 @@
 
 // ini_set ("display_errors","0" );
 // error_reporting(E_ALL);
+header('Strict-Transport-Security: max-age=0;');
 
 require_once ("lib/ajax/xajax_core/xajax.inc.php");
 include ("class/ajax/funciones.php");
@@ -60,7 +61,7 @@ echo "<?xml version=\'1.0\' encoding=\'UTF-8\'?>";
             <p class="login-box-msg"><img src="sistema/vista/imgs/envia5.png" width="200"></p>
 
             <p class="login-box-msg" id="mensaje">Ingresa tus credenciales de acceso</p>
-            <p class="login-box-msg" id="mensaje"><b>Sistema de Rastreo</b></p>
+            <p class="login-box-msg" id="mensaje"><b>Sistema de Rastreo test</b></p>
 
             <form method="post" id="formulario">
                 <div class="input-group mb-3">
