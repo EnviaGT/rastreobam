@@ -2,7 +2,7 @@
 
 // ini_set ("display_errors","0" );
 // error_reporting(E_ALL);
-header('Strict-Transport-Security: max-age=0;');
+header( 'Strict-Transport-Security: max-age=15552000; includeSubdomains; preload' );
 
 require_once ("lib/ajax/xajax_core/xajax.inc.php");
 include ("class/ajax/funciones.php");
