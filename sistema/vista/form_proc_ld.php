@@ -1,4 +1,9 @@
-<?php 
+<?php
+$barra="";
+
+  if(isset($_GET['br'])){
+    $barra=$_GET['br'];
+  }
 
 ?>
 <style type="text/css">
@@ -44,7 +49,7 @@
                   <!-- /.info-box -->
                 </div>
                 <input type="hidden" id="cli_id" name='cli_id' value="<?php echo $_SESSION['shi_codigo']; ?>">
-                      
+                <!--    
                 <div class="form-group">
                   <label for="numid"># Manifiesto</label>
                   <input type="text" class="form-control" id="numid" name='numid' value="<?php echo genera_numid(); ?>" readonly />
@@ -54,7 +59,7 @@
                   <label for="posicion">Posicion</label>
                   <input  type="text" class="form-control" id="posicion" name='posicion' value="1" readonly/>
                 </div>
-
+                -->
                 <div class="form-group">
                   <label for="id_zona">Zona</label>
                   <?php echo zona_ld(); ?>
@@ -66,11 +71,9 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="vineta">Vi&ntilde;eta</label>
-                  <input type="text" class="form-control" id="vineta"  name='vineta' autofocus 
-                  onchange="procesarLD($('#numid').val(),
-                                        $('#posicion').val(),
-                                        $('#id_zona').val(),
+                  <label for="vineta">Etiqueta</label>
+                  <input type="text" value="<?php echo $barra;?>" class="form-control" id="vineta"  name='vineta' autofocus
+                  onchange="procesarLD($('#id_zona').val(),
                                         $('#id_mensajero').val(),
                                         $('#vineta').val());
                                         return false;"/>
@@ -80,7 +83,20 @@
               </div>
               <div class="col-md-12 col-sm-6 col-12">
                   <div class="info-box ">
-                    <span class="info-box-icon bg-navy"><i class="far fa-envelope"></i></span>
+                    <span class="info-box-icon bg-navy">
+                      <?php
+                      if(isset($_GET['br'])) {
+                        ?>
+
+                        <i class="far fa-envelope" onclick="procesarLD($('#id_zona').val(),
+                                        $('#id_mensajero').val(),
+                                        $('#vineta').val());
+                        return false;"></i></span>
+                          <?php
+                      }else{
+                        echo '<i class="far fa-envelope"></i></span>';
+                      }
+                    ?>
                         <div class="info-box-content">
                           
                             <div class="form-group" id='msj_div'></div>
@@ -91,7 +107,7 @@
                   <!-- /.info-box -->
                 </div>
               <!-- /.card-body -->
-
+                <!--
                 <form>
                 <div class="card-footer">
                 <button id="submitBtn" type="button" class="btn btn-outline-dark " data-toggle="modal" data-target="#modal-default"
@@ -100,7 +116,7 @@
                 </button>
               </div>
                 </form>
-
+              -->
               
               <div class="modal fade" id="modal-default">
                 <div class="modal-dialog">

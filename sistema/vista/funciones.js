@@ -1,4 +1,15 @@
-function procesarformulario(ccosto_ori,id_ccosto,destinatario,descripcion,tipo_envio,des_direccion,id_cat){
+function procesarformulario(ccosto_ori,id_ccosto,destinatario,descripcion,tipo_envio,des_direccion,id_cat,ccosto_nombre,agencia){
+
+
+  destinatario    =quitarAcentos(destinatario);
+  descripcion     =quitarAcentos(descripcion);
+  tipo_envio      =quitarAcentos(tipo_envio);
+  des_direccion   =quitarAcentos(des_direccion);
+
+  ccosto_nombre   =quitarAcentos(ccosto_nombre);
+  agencia         =quitarAcentos(agencia);
+
+
   var datos_origen={
     "ccosto_ori":ccosto_ori,
     "id_ccosto":id_ccosto,
@@ -6,36 +17,69 @@ function procesarformulario(ccosto_ori,id_ccosto,destinatario,descripcion,tipo_e
     "descripcion":descripcion,
     "tipo_envio":tipo_envio,
     "des_direccion":des_direccion,
-    "id_cat":id_cat
+    "id_cat":id_cat,
+    "ccosto_nombre":ccosto_nombre,
+    "agencia":agencia
   };
   $.ajax({
     data:datos_origen,
     url:'../sistema/prg/ingreso_guia.php',
+
     type: 'post',
     beforeSend: function(){
       //$("#respuesta").html("procesando");
     },
     success: function (response){
-      var str = response;
-      var res = str.split("-");
-      if(res[0]==200)
+      var str = JSON.parse(response);
+      //var res = str.split("-");
+      //console.log('codigo de proceso'+str.codigo);
+      if(str.codigo==200)
       {
         $('#destinatario').val('');
         $('#destinatario').focus();
-        $('#descripcion').val('');
-        $('#des_direccion').val('');
+        //$('#descripcion').val('');
+        //$('#des_direccion').val('');
+        //$('#cod_destinatario').val('');
+        //$('#id_ccosto').val('');
+        //$('#ccosto_nombre').val('');
+        //$('#agencia').val('');
+        //$('#ccosto').val('');
+
         //$('#vineta').val('');
         //$('#vineta').attr('readonly',false);
         ///$('#boton_v').attr("disabled", false);
 
-        $("#respuesta").html('<span style="color:green;"><b>'+ res[1]+' </b><a href="../sistema/prg/generaAcuse.php?v='+ res[6]+'" target="_blank">Envio '+ res[6]+' </a> </span>');
+        $("#respuesta").html('<span style="color:green;"><b>'+ str.mensaje+' </b><a href="../sistema/prg/generaAcuse.php?v='+ str.barra+'" target="_blank">Envio '+ str.barra+' </a> </span>');
       }else
       {
-        $("#respuesta").html('<span style="color:red;"><b>Error form_ingreso_guia validar:</b>  <p> '+res[0]+res[1]+'</span></p>');
+        $("#respuesta").html('<span style="color:red;"><b>Error form_ingreso_guia validar:</b>  <p> '+str.mensaje+'</span></p>');
       }
     }
   })
 }
+
+////warning///
+
+function quitarAcentos(cadena){
+  const acentos = {'á':'a','é':'e','í':'i','ó':'o','ú':'u','Á':'A','É':'E','Í':'I','Ó':'O','Ú':'U'};
+  return cadena.split('').map( letra => acentos[letra] || letra).join('').toString();
+}
+
+function removeSpecials(str)
+{
+  var lower = str.toLowerCase();
+  var upper = str.toUpperCase();
+  var res = "";
+  var sp= "";
+  for(var i=0; i<lower.length; ++i) {
+    if(lower[i] != upper[i]||lower[i].trim() === ' ')
+    {res += str[i];}
+
+  }
+  return res;
+}
+///warning/// else{res += sp+str[i];}
+
 
 function procesarMantAgencia(cli_id,id_agencia,codigo_agencia,nombre_agencia,direccion_agencia,telefono_agencia)
 {
@@ -469,11 +513,9 @@ function procesarAR(id_vineta)
   })
 }
 
-function procesarLD(numid,posicion,id_zona,id_mensajero,vineta)
+function procesarLD(id_zona,id_mensajero,vineta)
 {
   var datos_origen={
-    "numid":numid,
-    "posicion":posicion,
     "id_zona":id_zona,
     "id_mensajero":id_mensajero,
     "vineta":vineta
@@ -490,13 +532,13 @@ function procesarLD(numid,posicion,id_zona,id_mensajero,vineta)
       var str = response;
       var res = str.split("-");
 
-      var total = parseInt(posicion)+1;; // Convertir el valor a un entero (número).
+      //var total = parseInt(posicion)+1;; // Convertir el valor a un entero (número).
 	
       if(res[0]==200)
       {
         $('#msj_div').val();
         $('#msj_div').html('<br><span style="color:green;"><b>Salida a ruta '+ vineta +' Procesada Correctamente.</b></span>');
-        $('#posicion').val(total);
+        //$('#posicion').val(total);
         $('#vineta').val('');
       }else
       {

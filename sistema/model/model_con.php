@@ -16,6 +16,25 @@ class model_con extends Db
 		$db=Db::getInstance();
 	}
 
+    public function  d_acuse($vineta,$tipo_envio,$destinatario,$ccosto_des,$ccosto_nombre,$des_direccion,$agencia,$descripcion,$id_cat){
+        $db=Db::getInstance();
+        $con="insert into detalle_acuse(barra,tipo_envio,nombre_destinatario,ccosto,nombre_ccosto,direccion,agencia,descripcion,categoría) 
+                              values ('$vineta','$tipo_envio','$destinatario','$ccosto_des','$ccosto_nombre','$des_direccion','$agencia','$descripcion','$id_cat')";
+        $stmt= $db->preparar($con);
+        //echo '<pre>';
+        //print_r($stmt);
+        //echo '</pre>';
+        if($stmt->execute()){
+            $msj="Insertado";
+        }else{
+            $msj="Error".$con;
+        }
+        //echo $msj;
+        return $msj;
+
+
+    }
+
 	public function registra_envio($ccosto_ori,$ccosto_des,$destinatario,$descripcion,$vineta,$tipo_envio,$des_direccion,$id_cat)
     {
 		$db=Db::getInstance();
@@ -262,6 +281,9 @@ class model_con extends Db
 		$datetime	=date('Y/m/d H:i:s');
 		$tiempo		=time();
 		$id_usr		=$_SESSION['cod_user'];
+	    $perfil     =4;
+        $id_ccosto  =366;
+        $shi_codigo=1;
 
 		//Se valida que el codigo de la agencia venga lleno para insertar sino es un update
 		if($id_mensajero==''){
@@ -284,6 +306,67 @@ class model_con extends Db
 							'$date',
 							'$datetime'
 							)";
+
+
+
+
+            $sql2="INSERT INTO rastreo.usuario
+								(
+									id_usr, 
+									usr_cod, 
+									usr_pass, 
+									usr_nombre, 
+									cli_codigo, 
+									id_grupo, 
+									nivel, 
+									depto, 
+									id_ccosto, 
+									area, 
+									producto, 
+									posicion, 
+									aud_usuario_proc, 
+									aud_fecha_proc, 
+									aud_hora_proc, 
+									marca_tiempo, 
+									estado, 
+									dias_vencimiento, 
+									char1, 
+									entero1, 
+									cliente_cli_id
+								)
+					VALUES (0,
+							'$telefono_mensajero',
+							'".md5($telefono_mensajero)."',
+							'$nombre_mensajero',
+							'$shi_codigo',
+							1,
+							$perfil,
+							0,
+							'$id_ccosto',
+							0,
+							0,
+							0,
+							'$id_usr',
+							'".date('Y/m/d')."',
+							'".date('H:i:s')."',
+							$tiempo,
+							1,
+							30,
+							0,
+							0,
+							0
+							)";
+
+
+            $stmt2= $db->preparar($sql2);
+            //echo '<pre>';
+            //print_r($stmt);
+            //echo '</pre>';
+            if($stmt2->execute()){
+                $msj="Insertado";
+            }else{
+                $msj="Error";
+            }
 
 		}else{
 			//Update
@@ -316,7 +399,7 @@ class model_con extends Db
 		$datetime	=date('Y/m/d H:i:s');
 		$tiempo		=time();
 		$id_usr		=$_SESSION['cod_user'];
-		$shi_codigo =isset($_SESSION['cli_id']);
+		$shi_codigo =1;//isset($_SESSION['cli_id']);
 
 		//Se valida que el codigo de la agencia venga lleno para insertar sino es un update
 		//if($id_usr==''){
@@ -706,7 +789,7 @@ class model_con extends Db
 		return $msj;
 	}
 
-	public function procesar_LD($numid,$posicion,$id_zona,$id_mensajero,$vineta)
+	public function procesar_LD($id_zona,$id_mensajero,$vineta)
 	{
 		$db=Db::getInstance();
 		session_start();
@@ -719,6 +802,8 @@ class model_con extends Db
 		$cont_u     	=0;
 		$cont_i     	=0;
 		$existe_vineta  =0;
+		$numid          =date('Ymdhis');
+		$posicion       =1;
 
 		//Buscamos si existe una vineta apta para LD  --  Debe estar la guia en estado 3 para LD
 		$sql="SELECT g.*
@@ -1133,8 +1218,10 @@ class model_con extends Db
 
 	public function data_acuse($vineta)
     {
-        $db=Db::getInstance();
 
+
+        $db=Db::getInstance();
+/*
 		$sql = "SELECT 
 					id_envio,ori_ccosto,
 					fn_AgeXCc(ori_ccosto) AS age_ori,
@@ -1151,12 +1238,72 @@ class model_con extends Db
 			FROM rastreo.guia 
 			WHERE barra='$vineta'
 			ORDER BY id_envio";
+*/
+
+       /* $sql="SELECT
+	id_envio,ori_ccosto,
+	fn_AgeXCc(ori_ccosto) AS age_ori,
+	fn_ccostoNombre(ori_ccosto) AS ori_ccosto_nombre,
+	des_ccosto, 
+	fn_AgeXCc(des_ccosto) AS age_des,
+	fn_ccostoNombre(des_ccosto) AS des_ccosto_nombre,
+	fn_usrNombre(g.id_usr) AS usr_ori,
+	g.fecha_datetime,barra,comentario,destinatario,
+	g.char1 as tipo,
+	fn_catNombre(g.entero1) as categoria,
+	fn_ccostoDirNombre(ori_ccosto) as ccDirOri,
+	fn_ccostoDirNombre(des_ccosto) as ccDirdes,
+    c.ccosto_codigo
+	FROM rastreo.guia g inner join centro_costo c
+    on g.des_ccosto=c.id_ccosto
+    WHERE g.barra='$vineta'
+	ORDER BY g.id_envio";*/
+
+    $sql="
+    SELECT 
+	id_envio,ori_ccosto,
+	fn_AgeXCc(ori_ccosto) AS age_ori,
+	fn_ccostoNombre(ori_ccosto) AS ori_ccosto_nombre,
+	des_ccosto, 
+	fn_AgeXCc(des_ccosto) AS age_des,
+	fn_ccostoNombre(des_ccosto) AS des_ccosto_nombre,
+	s.usr_nombre AS usr_ori,
+	g.fecha_datetime,barra,comentario,destinatario,
+	g.char1 as tipo
+	FROM rastreo.guia g inner join usuario s
+    on g.id_usr=s.id_usr
+    WHERE g.barra='$vineta'";
 
 		$stmt=$db->consultar($sql);
 		//echo $sql;
 		return $stmt;
 	}
 
+
+    public function data_acuse2($vineta)
+    {
+
+
+        $db=Db::getInstance();
+
+
+        $sql="
+	SELECT `detalle_acuse`.`barra`,
+    `detalle_acuse`.`tipo_envio`,
+    `detalle_acuse`.`nombre_destinatario`,
+    `detalle_acuse`.`ccosto`,
+    `detalle_acuse`.`nombre_ccosto`,
+    `detalle_acuse`.`direccion`,
+    `detalle_acuse`.`agencia`,
+    `detalle_acuse`.`descripcion`,
+    `detalle_acuse`.`categoría`
+    FROM `rastreo`.`detalle_acuse`
+    WHERE barra='$vineta'";
+
+        $stmt=$db->consultar($sql);
+        //echo $sql;
+        return $stmt;
+    }
 
 
 

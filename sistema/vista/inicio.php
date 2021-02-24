@@ -1,5 +1,7 @@
 <?php
-header( 'Strict-Transport-Security: max-age=0;' );
+
+//header( 'Strict-Transport-Security: max-age=15552000; includeSubDomains;' );
+header( 'Strict-Transport-Security: max-age=15552000; includeSubdomains; preload' );
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,6 +32,14 @@ header( 'Strict-Transport-Security: max-age=0;' );
   <link rel="stylesheet" href="vista/plugins/summernote/summernote-bs4.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+  <link rel="stylesheet" href="vista/DataTables/datatables.min.css">
+
+  <!--botones-->
+  <link rel="stylesheet" href="vista/DataTables/DataTables-1.10.23/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="vista/DataTables/Buttons-1.6.5/css/buttons.bootstrap4.min.css">
+  <link rel="stylesheet" href="vista/DataTables/Scroller-2.0.3/css/scroller.bootstrap4.min.css">
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -59,7 +69,7 @@ header( 'Strict-Transport-Security: max-age=0;' );
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
-        <?php echo date('d-m-Y'); ?>
+        <?php echo date('d-m-Y H:i:s'); ?>
         </a>
 
 
