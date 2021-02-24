@@ -1,5 +1,5 @@
 <?php
-
+//hola mundo
 header( 'Strict-Transport-Security: max-age=15552000; includeSubdomains; preload' );
 
 // ini_set ("display_errors","0" );
