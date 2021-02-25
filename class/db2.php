@@ -16,10 +16,10 @@ class dbh
 	private $prep;
 	//private $servidor='localhost';
 	//private $usuario='root2';
-	private $servidor='rastreo.mysql.database.azure.com';
-    private $usuario='root2@rastreo';
+	private $servidor='rastreobam.mysql.database.azure.com';
+    private $usuario='root2@rastreobam';
 	private $password='1v341F1ca';
-	private $base_datos='rastreo';
+	private $base_datos='rastreobam';
 	private $link;
 	
 	static $_instance;

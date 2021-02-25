@@ -22,10 +22,10 @@ $x1=new model_con();
 //$sql = "select * from movimiento" ;
 //$sql = "select * from orden";
 //$sql = "select * from recurso";
-//$sql = "select * from usuario where id_usr=4";
+$sql = "select * from usuario";
 //$sql = "select * from zona";
 
-$sql="SELECT g.* FROM rastreo.guia g INNER JOIN rastreo.orden o ON g.id_orden=o.id_orden WHERE g.barra='' AND o.cli_codigo='1' AND g.estado=4";
+//$sql="SELECT g.* FROM rastreo.guia g INNER JOIN rastreo.orden o ON g.id_orden=o.id_orden WHERE g.barra='' AND o.cli_codigo='1' AND g.estado=4";
 
 $data = $x1->consul($sql);
 

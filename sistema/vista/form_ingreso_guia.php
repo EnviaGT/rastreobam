@@ -68,7 +68,7 @@
       </div>
     </div><!-- /.container-fluid -->
   </section>
-  <!-- Main content  -->
+  <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
       <div class="row">
@@ -108,23 +108,31 @@
                 </div>
 
                 <div>
-                  <label for="tipo_envio">Nombre Destinatario:</label>
+                  <span>Nombre Destinatario:</span>
                   <br>
                   <span><input type='text' id='destinatario' class="form-control"></span>
 
 
                 </div>
+                <div class="form-group">
+                  <label for="id_ccosto">Centro de costo destino</label>
+                  <input type="text" id="id_ccosto" name="id_ccosto"  class="form-control" onchange='changeCCostoDes1()'>
+                  <?php //echo select_ccosto_simple(); ?>
+                </div>
 
                 <div class="form-group">
-                  <label for="agencia">Agencia o Edificio</label>
-                  <input type="text" class="form-control" id="agencia" name='agencia' placeholder="Agencia">
+                  <label for="id_ccosto">Centro de costo destino</label>
+                  <input type="text" id="ccosto_nombre" name="ccosto_nombre" class="form-control" >
                 </div>
 
                 <div class="form-group">
                   <label for="des_direccion">Direcci&oacute;n</label>
                   <input type="text" class="form-control" id="des_direccion" name='des_direccion' placeholder="Direccion del destinatario">
                 </div>
-
+                <div class="form-group">
+                  <label for="agencia">Agencia ó Edificio</label>
+                  <input type="text" class="form-control" id="agencia" name='agencia' placeholder="Agencia">
+                </div>
 
                 <div class="form-group">
                   <label for="descripcion">Descripci&oacute;n del env&iacute;o</label>
@@ -136,18 +144,6 @@
                   <?php echo select_categoria(); ?>
                 </div>
 
-                <!--div class="form-group">
-                  <label for="id_ccosto">Centro de costo destino</label-->
-                  <input type="hidden" id="id_ccosto" name="id_ccosto"  class="form-control" onchange='' value="1" >
-                  <?php //echo select_ccosto_simple(); ?>
-                <!--/div-->
-
-                <!--div class="form-group">
-                  <label for="id_ccosto">Centro de costo destino</label-->
-                  <input type="hidden" id="ccosto_nombre" name="ccosto_nombre" class="form-control" value="1" >
-                <!--/div-->
-
-                <!--
                 <div class="form-group">
                   <label for="vineta">Vi&ntilde;eta</label>
                   <input type="text" class="form-control" id="vineta" name='vineta' placeholder="vi&ntilde;eta"  autocomplete="off">
@@ -160,7 +156,7 @@
                     </div>
                   </div>
                 </div>
-                -->
+                <!---->
               </div>
               <!-- /.card-body -->
 
@@ -174,7 +170,8 @@
                                                     formulario.des_direccion.value,
                                                     formulario.id_cat.value,
                                                     formulario.ccosto_nombre.value,
-                                                    formulario.agencia.value
+                                                    formulario.agencia.value,
+                                                    formulario.vineta.value
                                                 )">
                   Registrar Env&iacute;o
                 </button>

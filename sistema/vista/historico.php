@@ -28,7 +28,7 @@ class historico_ingresos extends Db
                         from guia gi
                         inner join usuario us on us.id_usr=gi.id_usr
                             inner join centro_costo cctu on cctu.id_ccosto=us.id_ccosto
-                        inner join centro_costo cct on cct.id_ccosto=gi.des_ccosto
+                        inner join centro_costo cct on cct.id_ccosto=gi.des_ccosto or 1
                         inner join categoria ct on ct.id_cat=gi.entero1
                         inner join movimiento mv on mv.id_envio=gi.id_envio
                         left join manifiesto_linea ml on ml.id_envio=gi.id_envio
@@ -69,7 +69,7 @@ class historico_ingresos extends Db
                         from guia gi
                         inner join usuario us on us.id_usr=gi.id_usr
                             inner join centro_costo cctu on cctu.id_ccosto=us.id_ccosto
-                        inner join centro_costo cct on cct.id_ccosto=gi.des_ccosto
+                        inner join centro_costo cct on cct.id_ccosto=gi.des_ccosto or 1
                         inner join categoria ct on ct.id_cat=gi.entero1
                         inner join movimiento mv on mv.id_envio=gi.id_envio
                         left join manifiesto_linea ml on ml.id_envio=gi.id_envio

@@ -7,7 +7,7 @@ $dbp=Db::getInstance();
 $id_vineta     =$_POST["id_vineta"];
 
 
-$sql="UPDATE rastreo.guia SET estado=0 WHERE estado=1 AND id_orden=1 AND id_envio='$id_vineta'";
+$sql="UPDATE rastreobam.guia SET estado=0 WHERE estado=1 AND id_orden=1 AND id_envio='$id_vineta'";
 
 $stmt= $dbp->preparar($sql);
 

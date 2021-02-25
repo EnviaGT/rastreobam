@@ -4,7 +4,6 @@ header( 'Strict-Transport-Security: max-age=15552000; includeSubdomains; preload
 
 // ini_set ("display_errors","0" );
 // error_reporting(E_ALL);
-header( 'Strict-Transport-Security: max-age=15552000; includeSubdomains; preload' );
 
 require_once ("lib/ajax/xajax_core/xajax.inc.php");
 include ("class/ajax/funciones.php");
@@ -55,6 +54,18 @@ if(isset($_GET['m'])){
     <link rel="stylesheet" href="sistema/vista/dist/css/adminlte.min.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <style type="text/css">
+  .ocultar{
+    display: none;
+
+  }
+
+  .mostrar{
+    display:block;
+  }
+</style>
+
 </head>
 <body class="hold-transition login-page">
 <div class="login-box ">
@@ -64,7 +75,21 @@ if(isset($_GET['m'])){
     </div>
     <!-- /.login-logo -->
     <?php echo $info;?>
-    <div class="card">
+
+    <div id="carga" class="alert alert-primary ocultar" role="alert">
+          <div class="text-center">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+            Validando credenciales...
+          </div>
+        </div>
+
+        <div id="respuesta" class="alert  ocultar" role="alert">
+           
+        </div>
+
+    <div id="ok" class="card ">
 
         <div class="card-body login-card-body bg-gradient-navy">
             <p class="login-box-msg"><img src="sistema/vista/imgs/envia5.png" width="200"></p>
@@ -94,9 +119,9 @@ if(isset($_GET['m'])){
                     </div>
                     <!-- /.col -->
                     <div class="col-4">
-                        <button type="button" class="btn btn-secondary btn-block" onclick="xajax_valida_usuario(xajax.getFormValues('formulario'))">Ingresar</button>
+                        <button type="button" class="btn btn-secondary btn-block" onclick="validar_usr($('#pass').val(),$('#usr').val())">Ingresar</button>
                     </div>
-                    <!-- /.col -->
+                    <!-- /.col xajax_valida_usuario(xajax.getFormValues('formulario')) -->
                 </div>
             </form>
 
@@ -112,6 +137,57 @@ if(isset($_GET['m'])){
 <script src="sistema/vista/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="sistema/vista/dist/js/adminlte.min.js"></script>
+
+<script>
+function validar_usr(pass,val){
+
+   var datosorg={
+    "usr":val,
+    "pss":pass
+   };
+
+   $.ajax({
+        data:datosorg,
+        url:'loginusr.php',
+        type: 'post',
+        beforeSend: function(){
+            document.getElementById("ok").classList.add("ocultar");
+           document.getElementById("carga").classList.remove("ocultar");
+        },
+        success:function(response){
+            var str = JSON.parse(response);
+            
+            if(str.codigo==202)
+            {
+                document.getElementById("respuesta").classList.add("alert-success");
+                document.getElementById("carga").classList.add("ocultar");
+                document.getElementById("respuesta").classList.remove("ocultar");
+                $('#respuesta').html('Usuario y contraseña validos Bienvenido a Rastreo BAM');
+                console.log(redireccionarPagina());
+                setTimeout("redireccionarPagina()", 5000);
+                
+            }else{
+
+               document.getElementById("carga").classList.add("ocultar");
+                $('#respuesta').html('Usuario y contraseña invalidos verifique sus credenciales');
+               document.getElementById("respuesta").classList.add("alert-danger");
+               document.getElementById("respuesta").classList.remove("ocultar");
+                document.getElementById("ok").classList.remove("ocultar");
+            }
+
+        }
+
+       
+
+   });
+
+   function redireccionarPagina() {
+  window.location = "sistema/index.php";
+    }
+
+}
+
+</script>
 
 </body>
 </html>

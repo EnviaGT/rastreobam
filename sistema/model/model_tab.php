@@ -157,7 +157,7 @@ class model_tab extends Db
 						fn_ccostoNombre(des_ccosto) AS des_ccosto_nombre,
 						fn_usrNombre(id_usr) AS usr_ori,
 						fecha_datetime,barra,comentario,destinatario
-				FROM rastreo.guia 
+				FROM rastreobam.guia 
 				WHERE ori_ccosto='$id_ccosto' 
 				  and id_usr = $id_usr
 				AND estado=1 

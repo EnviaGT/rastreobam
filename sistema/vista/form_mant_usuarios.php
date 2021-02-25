@@ -1,6 +1,18 @@
 <?php 
 
 ?>
+<style type="text/css">
+  .ocultar{
+    display: none;
+
+  }
+
+  .mostrar{
+    display:block;
+  }
+</style>
+
+<script src="vista/Strength.js-master/src/strength.min.js"></script>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -51,13 +63,21 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="usr_pass">Contrase&ntilde;a </label>
-                  <input type="password" class="form-control" id="usr_pass" name='usr_pass' placeholder="Contraseña"  required />
+                  <label for="usr_pass">Contrase&ntilde;a : La contrase&ntilde;a debe de contener un minimo de 8 caracteres <br> e incluir alguno de estos caracteres:  <strong>&!¡¿?_$</strong> </label>
+                  <input type="password" class="form-control" id="usr_pass" name='usr_pass' placeholder="Contraseña" onkeypress="validar()" required maxlength="16"/>
+
+                  <div id="alerta" class="alert ocultar" role="alert">
+                      <div class="text-center">
+                        <span id="mensaje"></span>
+                      </div>
+                      </div>
+
+
                 </div>
 
                 <div class="form-group">
                   <label for="usr_nombre">Nombre Usuario </label>
-                  <input type="text" class="form-control" id="usr_nombre" name='usr_nombre' placeholder="Nombre Usuario"  required />
+                  <input type="text" class="form-control" id="usr_nombre" name='usr_nombre' placeholder="Nombre Usuario" disabled required />
                 </div>
 
                 <div class="form-group">
@@ -76,7 +96,7 @@
               </div>
 
               <div class="card-footer">
-                <button id="submitBtn" type="button" class="btn btn-outline-dark " data-toggle="modal" data-target="#modal-default"
+                <button id="submitBtn" type="button" class="btn btn-outline-dark " data-toggle="modal" data-target="#modal-default" disabled
                         onclick="procesarMantUsuario(
                                                        formulario.usr_cod2.value,
                                                        formulario.usr_pass.value,
@@ -119,3 +139,34 @@
 </div>
 <!-- ajax call -->
 <script src="vista/funciones.js"></script>
+<script src="vista/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="vista/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script>
+function validar(){
+  var mayus   = new RegExp("^(?=.*[A-Z])");
+  var special = new RegExp("^(?=.*[&!¡¿?_$])");
+  var numbers = new RegExp("^(?=.*[0-9])");
+  var lower   = new RegExp("^(?=.*[a-z])");
+  var len     = new RegExp("^(?=.{8,16})");
+
+  var pass = $("#usr_pass").val();
+  console.log("--mayus"+mayus.test(pass)+"--special"+special.test(pass)+"--numbers"+numbers.test(pass)+"--lower"+lower.test(pass)+"--len"+len.test(pass));
+  
+  if(mayus.test(pass) && special.test(pass) && numbers.test(pass) && lower.test(pass) && len.test(pass)){
+    $("#mensaje").text("La contraseña cumple con los requisitos");
+    document.getElementById("alerta").classList.add("alert-success");
+    document.getElementById("alerta").classList.remove("alert-danger");
+    document.getElementById('usr_nombre').disabled = false;
+    document.getElementById('submitBtn').disabled = false;
+    
+  }else{
+    $("#mensaje").text("La contraseña es insegura no cumple con los requisitos.");
+    document.getElementById("alerta").classList.add("alert-danger");
+    document.getElementById("alerta").classList.remove("ocultar");
+    document.getElementById("alerta").classList.remove("alert-success");
+    document.getElementById('usr_nombre').disabled = true;
+    document.getElementById('submitBtn').disabled = true;
+  }
+}
+</script>

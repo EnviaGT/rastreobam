@@ -905,7 +905,7 @@ if($shi_codigo=='000591')
 		$shi_codigo=$_SESSION['shi_codigo'];
 		
 		$sql_c = "SELECT *
-					FROM rastreo.motivo 
+					FROM rastreobam.motivo 
 					WHERE tipo_motivo=5
 					AND estado_motivo=1
 					ORDER BY id_motivo";

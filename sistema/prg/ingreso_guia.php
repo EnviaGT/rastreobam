@@ -24,10 +24,12 @@ $descripcion=str_replace("'", " ", $descripcion);
 $agencia=str_replace('"','',$agencia);
 $agencia=str_replace("'", " ", $agencia);
 
-
+$vineta=trim($_POST['vineta']);
 $db=new model_con();
 
+if($vineta==''){
 $vineta= $db->consulta_correlativo();
+}
 
 if($ccosto_ori=='' || $ccosto_ori ==NULL){
     $retorno = "Centro costo origen esta vacio";
@@ -66,6 +68,13 @@ if($ccosto_ori=='' || $ccosto_ori ==NULL){
 
 
     $sql="";
+}elseif($vineta=='' || $vineta ==NULL){
+
+    $retorno = array(
+        'codigo'=> 409,
+        'mensaje'=>"ingrese un numero de vi&ntilde;eta",
+    );
+
 }else{
     //Para efecto de envios EXTERNOS se colocara como ccosto_des = 1, el codigo 1 quedaria reservado para ccosto_externo
 

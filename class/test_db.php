@@ -1,6 +1,6 @@
 <?php
-$servername = "rastreo.mysql.database.azure.com";
-$username = "root2@rastreo";
+$servername = "rastreobam.mysql.database.azure.com";
+$username = "root2@rastreobam";
 $password = "1v341F1ca";
 
 
@@ -44,7 +44,7 @@ while ($row=$bd->obtener_fila($stmt,0)){
 }
 =======
 try {
-    $conn = new PDO("mysql:host=$servername;dbname=rastreo", $username, $password);
+    $conn = new PDO("mysql:host=$servername;dbname=rastreobam", $username, $password);
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     echo "Connected successfully";

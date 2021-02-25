@@ -1,4 +1,4 @@
-function procesarformulario(ccosto_ori,id_ccosto,destinatario,descripcion,tipo_envio,des_direccion,id_cat,ccosto_nombre,agencia){
+function procesarformulario(ccosto_ori,id_ccosto,destinatario,descripcion,tipo_envio,des_direccion,id_cat,ccosto_nombre,agencia,vineta){
 
 
   destinatario    =quitarAcentos(destinatario);
@@ -19,7 +19,8 @@ function procesarformulario(ccosto_ori,id_ccosto,destinatario,descripcion,tipo_e
     "des_direccion":des_direccion,
     "id_cat":id_cat,
     "ccosto_nombre":ccosto_nombre,
-    "agencia":agencia
+    "agencia":agencia,
+    "vineta":vineta
   };
   $.ajax({
     data:datos_origen,

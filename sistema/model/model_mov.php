@@ -43,8 +43,8 @@ class model_mov extends Db
 						g.destinatario,
 						g.des_direccion,
 						g.comentario
-				FROM rastreo.movimiento m
-				INNER JOIN rastreo.guia g
+				FROM rastreobam.movimiento m
+				INNER JOIN rastreobam.guia g
 				ON g.id_guia=m.id_envio
 				WHERE g.barra='$barra'";
 
@@ -85,7 +85,7 @@ class model_mov extends Db
 						comentario,
 						destinatario,
 						des_direccion
-				FROM rastreo.guia 
+				FROM rastreobam.guia 
 				WHERE barra='$barra'";
 
 		$stmt=$db->consultar($sql);
@@ -112,8 +112,8 @@ class model_mov extends Db
         				COUNT(IF(m.id_chk=3, id_chk,NULL)) AS LD,
         				COUNT(IF(m.id_chk=4, id_chk,NULL)) AS DL,
         				COUNT(IF(m.id_chk=5, id_chk,NULL)) AS DV
-				FROM rastreo.guia g
-				INNER JOIN rastreo.movimiento m
+				FROM rastreobam.guia g
+				INNER JOIN rastreobam.movimiento m
 				ON g.id_envio=m.id_envio
 				WHERE g.barra=$barra";
 
@@ -141,8 +141,8 @@ class model_mov extends Db
         max(IF(m.id_chk=3, m.fecha_Datetime,0)) AS LD,
         max(IF(m.id_chk=4, m.fecha_datetime,0)) AS DL,
         max(IF(m.id_chk=5, m.fecha_datetime,0)) AS DV
-        FROM rastreo.guia g
-        INNER JOIN rastreo.movimiento m
+        FROM rastreobam.guia g
+        INNER JOIN rastreobam.movimiento m
         ON g.id_envio=m.id_envio
         WHERE g.barra=$barra
         group by 1,2

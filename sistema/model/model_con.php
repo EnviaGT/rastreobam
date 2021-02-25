@@ -103,7 +103,7 @@ class model_con extends Db
 		//Se valida que el codigo de la agencia venga lleno para insertar sino es un update
 		if($id_agencia==''){
 			//Insert
-			$sql="INSERT INTO rastreo.agencia
+			$sql="INSERT INTO rastreobam.agencia
 								(id_agencia,
 								cli_id,
 								agencia_codigo,
@@ -134,7 +134,7 @@ class model_con extends Db
 
 		}else{
 			//Update
-			$sql="UPDATE rastreo.agencia
+			$sql="UPDATE rastreobam.agencia
 					SET agencia_codigo='$codigo_agencia',
 						agencia_nombre='$nombre_agencia',
 						agencia_direccion='$direccion_agencia',
@@ -168,7 +168,7 @@ class model_con extends Db
 		//Se valida que el codigo del centro costo venga lleno para insertar sino es un update
 		if($id_ccosto==''){
 			//Insert
-			$sql="INSERT INTO rastreo.centro_costo
+			$sql="INSERT INTO rastreobam.centro_costo
 								(
 								id_ccosto, 
 								id_agencia, 
@@ -203,7 +203,7 @@ class model_con extends Db
 
 		}else{
 			//Update
-			$sql="UPDATE rastreo.centro_costo
+			$sql="UPDATE rastreobam.centro_costo
 					SET ccosto_codigo='$codigo_ccosto',
 						ccosto_nombre='$nombre_ccosto',
 						centro_direccion='$direccion_ccosto',
@@ -238,7 +238,7 @@ class model_con extends Db
 		//Se valida que el codigo de la agencia venga lleno para insertar sino es un update
 		if($id_zona==''){
 			//Insert
-			$sql="INSERT INTO rastreo.zona
+			$sql="INSERT INTO rastreobam.zona
 								(
 								id_zona,
 								zon_codigo,
@@ -253,7 +253,7 @@ class model_con extends Db
 
 		}else{
 			//Update
-			$sql="UPDATE rastreo.zona
+			$sql="UPDATE rastreobam.zona
 					SET zon_codigo='$codigo_zona',
 						zon_descripcion='$nombre_zona'
 					WHERE id_zona='$id_zona'";
@@ -288,7 +288,7 @@ class model_con extends Db
 		//Se valida que el codigo de la agencia venga lleno para insertar sino es un update
 		if($id_mensajero==''){
 			//Insert
-			$sql="INSERT INTO rastreo.mensajero
+			$sql="INSERT INTO rastreobam.mensajero
 								(
 								id_mensajero,
 								nombre, 
@@ -310,7 +310,7 @@ class model_con extends Db
 
 
 
-            $sql2="INSERT INTO rastreo.usuario
+            $sql2="INSERT INTO rastreobam.usuario
 								(
 									id_usr, 
 									usr_cod, 
@@ -370,7 +370,7 @@ class model_con extends Db
 
 		}else{
 			//Update
-			$sql="UPDATE rastreo.mensajero
+			$sql="UPDATE rastreobam.mensajero
 					SET nombre='$nombre_mensajero',
 						direccion='$direccion_mensajero',
 						telefono='$telefono_mensajero'
@@ -404,7 +404,7 @@ class model_con extends Db
 		//Se valida que el codigo de la agencia venga lleno para insertar sino es un update
 		//if($id_usr==''){
 			//Insert
-			$sql="INSERT INTO rastreo.usuario
+			$sql="INSERT INTO rastreobam.usuario
 								(
 									id_usr, 
 									usr_cod, 
@@ -453,7 +453,7 @@ class model_con extends Db
 
 		/*}else{
 			//Update
-			$sql="UPDATE rastreo.mensajero
+			$sql="UPDATE rastreobam.mensajero
 					SET nombre='$nombre_mensajero',
 						direccion='$direccion_mensajero',
 						telefono='$telefono_mensajero'
@@ -576,7 +576,7 @@ class model_con extends Db
         $existe_usr=0;
 
 		$sql = "SELECT id_envio,ori_ccosto,des_ccosto,id_usr,fecha_datetime,barra,comentario,destinatario
-					FROM rastreo.orden 
+					FROM rastreobam.orden 
 					WHERE ori_ccosto='$id_ccosto' 
 					AND estado=1 AND id_orden=1'";
 
@@ -597,7 +597,7 @@ class model_con extends Db
 		$estado     =1;
 
 		//Se crea primero la OS - Cuando se registra la Orden se ingresa con estado 1
-		$sql="INSERT INTO rastreo.orden
+		$sql="INSERT INTO rastreobam.orden
 				VALUES (0,'$id_cli','1','$date','OS Creada','$id_usr','$date','$datetime','$tiempo',$estado,NULL,NULL)";
 
 		//echo $sql;	
@@ -608,7 +608,7 @@ class model_con extends Db
 		if($stmt->execute()){
 			$id_os ="";
 			//Buscamos el numero de OS creado segun tiempo
-			$sql_1="SELECT id_orden FROM rastreo.orden WHERE llave='$tiempo'";
+			$sql_1="SELECT id_orden FROM rastreobam.orden WHERE llave='$tiempo'";
 
 			$stmt_1= $db->consultar($sql_1);
 			while ($row_1=$stmt_1->fetch(PDO::FETCH_NUM))
@@ -638,7 +638,7 @@ class model_con extends Db
 
 		//Buscamos primero los registros aptos para actualziar
 		$sql="SELECT *
-				FROM rastreo.guia 
+				FROM rastreobam.guia 
 				WHERE ori_ccosto='$id_ccosto' 
 				AND estado=1 
 				AND id_orden=1
@@ -661,7 +661,7 @@ class model_con extends Db
 			$destinatario	=$row[14];
 
 			//Por ID guia actualizamos uno a uno
-			$upd="UPDATE rastreo.guia
+			$upd="UPDATE rastreobam.guia
 					SET id_orden='$id_orden', estado=2
 					WHERE id_guia='$id_guia'
 					AND  estado=1";
@@ -676,10 +676,10 @@ class model_con extends Db
 			}
 
 			//Luego se inserta el PI (Pre Ingreso) en movimiento
-			$ing="INSERT INTO rastreo.movimiento 
+			$ing="INSERT INTO rastreobam.movimiento 
 							(id_movimiento,id_envio,id_chk,id_zona,id_mensajero,id_usr, fecha_date, fecha_datetime, tiempo, id_motivo, descripcion, movimientocol)
 					VALUES (0,'$id_guia',1,1,1,'$id_usr','$fecha_date','$fecha_datetime','$marca','1','INGRESO',NULL) ";
-			//echo "<br><br>".$ing;
+			//echo "<br>".$msj_u."<br>".$ing;
 			$stmt_i= $db->preparar($ing);
 
 			//print_r($stmt);
@@ -716,8 +716,8 @@ class model_con extends Db
 
 		//Buscamos si existe una vineta apta para AR  --  Debe estar la guia en estado 2 para AR 
 		$sql="SELECT g.*
-				FROM rastreo.guia g 
-				INNER JOIN rastreo.orden o
+				FROM rastreobam.guia g 
+				INNER JOIN rastreobam.orden o
 				ON g.id_orden=o.id_orden
 				WHERE g.barra='$id_vineta'
 				AND o.cli_codigo='$id_cli'
@@ -744,7 +744,7 @@ class model_con extends Db
 		//Por ID guia actualizamos el estado - Se actualiza a estado 3
 		if($existe_vineta==1){
 			//ACtualizamos el estado de la guia/vineta 
-			$upd="UPDATE rastreo.guia
+			$upd="UPDATE rastreobam.guia
 					SET estado=3
 					WHERE id_envio='$id_guia'
 					AND id_orden='$id_orden'
@@ -760,7 +760,7 @@ class model_con extends Db
 			}
 	
 			//Luego se inserta el AR (Arribo) en movimiento
-			$ing="INSERT INTO rastreo.movimiento 
+			$ing="INSERT INTO rastreobam.movimiento 
 						(id_movimiento,id_envio,id_chk,id_zona,id_mensajero,id_usr, fecha_date, fecha_datetime, tiempo, id_motivo, descripcion, movimientocol)
 					VALUES (0,'$id_guia',2,1,1,'$id_usr','$fecha_date','$fecha_datetime','$marca','2','ARRIBO',NULL) ";
 
@@ -807,8 +807,8 @@ class model_con extends Db
 
 		//Buscamos si existe una vineta apta para LD  --  Debe estar la guia en estado 3 para LD
 		$sql="SELECT g.*
-				FROM rastreo.guia g 
-				INNER JOIN rastreo.orden o
+				FROM rastreobam.guia g 
+				INNER JOIN rastreobam.orden o
 				ON g.id_orden=o.id_orden
 				WHERE g.barra='$vineta'
 				AND o.cli_codigo='$id_cli'
@@ -833,7 +833,7 @@ class model_con extends Db
 		}
 
 		//El numid que se trae se evalua
-		$sql_2="SELECT * FROM rastreo.manifiesto WHERE n_manifiesto='$numid'";
+		$sql_2="SELECT * FROM rastreobam.manifiesto WHERE n_manifiesto='$numid'";
 		$existe_numid=0;
 		$stmt_2= $db->consultar($sql_2);
 		while ($row_2=$stmt_2->fetch(PDO::FETCH_NUM))
@@ -844,7 +844,7 @@ class model_con extends Db
 		//Si no existe insertamos el numid en el encabezado
 		if($existe_numid==0)
 		{
-			$ing_1="INSERT INTO rastreo.manifiesto
+			$ing_1="INSERT INTO rastreobam.manifiesto
 						VALUES (0, '$numid', '$id_zona', '$id_mensajero', 1, '$id_usr', '$fecha_date', '$fecha_datetime', '$marca')";
 			
 			$stmt_i1= $db->preparar($ing_1);
@@ -860,7 +860,7 @@ class model_con extends Db
 		//Por ID guia actualizamos el estado - Se actualiza a estado 4
 		if($existe_vineta==1){
 			//ACtualizamos el estado de la guia/vineta 
-			$upd="UPDATE rastreo.guia
+			$upd="UPDATE rastreobam.guia
 					SET estado=4
 					WHERE id_envio='$id_guia'
 					AND id_orden='$id_orden'
@@ -876,7 +876,7 @@ class model_con extends Db
 			}
 
 			//Insertamos la linea de cada posicion del manifiesto generado
-			$ing_2="INSERT INTO rastreo.manifiesto_linea
+			$ing_2="INSERT INTO rastreobam.manifiesto_linea
 					VALUES (0,'$numid','$posicion',3,1,'$id_guia')";
 
 			$stmt_i2= $db->preparar($ing_2);
@@ -890,7 +890,7 @@ class model_con extends Db
 			}		
 	
 			//Luego se inserta LD (Salida a Ruta) en movimiento
-			$ing="INSERT INTO rastreo.movimiento 
+			$ing="INSERT INTO rastreobam.movimiento 
 						(id_movimiento,id_envio,id_chk,id_zona,id_mensajero,id_usr, fecha_date, fecha_datetime, tiempo, id_motivo, descripcion, movimientocol)
 					VALUES (0,'$id_guia',3,'$id_zona','$id_mensajero','$id_usr','$fecha_date','$fecha_datetime','$marca','3','SALIDA A RUTA',NULL) ";
 
@@ -935,7 +935,7 @@ class model_con extends Db
 
 		//Buscamos si existe una vineta apta para DL 
 		$sql="SELECT m.* 
-				FROM rastreo.manifiesto m 
+				FROM rastreobam.manifiesto m 
 				INNER JOIN usuario u
 				ON m.id_usr=u.id_usr
 				WHERE m.n_manifiesto='$numid'
@@ -961,10 +961,10 @@ class model_con extends Db
 		if($existe_numid==1){
 			//Buscamos una a una las viñetas ingresadas por numid para actualizar
 			$sql_u1="SELECT m.*,g.id_orden,g.barra
-						FROM rastreo.manifiesto_linea m 
-						INNER JOIN rastreo.guia g
+						FROM rastreobam.manifiesto_linea m 
+						INNER JOIN rastreobam.guia g
 						ON m.id_envio=g.id_envio
-						INNER JOIN rastreo.usuario u
+						INNER JOIN rastreobam.usuario u
 						ON g.id_usr=u.id_usr
 						WHERE m.n_manifiesto='$numid'
 						AND m.estado=1
@@ -984,7 +984,7 @@ class model_con extends Db
 				$barra			=$row_u1[7];
 
 				//Actualizamos el estado de la guia/vineta 
-				$upd="UPDATE rastreo.guia
+				$upd="UPDATE rastreobam.guia
 						SET estado=5
 						WHERE id_envio='$id_envio'
 						AND id_orden='$id_orden'
@@ -1000,7 +1000,7 @@ class model_con extends Db
 				}
 				
 				//Por ser una descarga completa de manifiesto se actualiza linea a linea
-				$upd_l1="UPDATE rastreo.manifiesto_linea
+				$upd_l1="UPDATE rastreobam.manifiesto_linea
 							SET id_chk=4,estado=2
 							WHERE n_manifiesto='$numid'
 							AND posicion='$posicion'
@@ -1017,7 +1017,7 @@ class model_con extends Db
 				}
 
 				//Luego se inserta el DL (Entrega Efectiva) en movimiento
-				$ing="INSERT INTO rastreo.movimiento 
+				$ing="INSERT INTO rastreobam.movimiento 
 							(id_movimiento,id_envio,id_chk,id_zona,id_mensajero,id_usr, fecha_date, fecha_datetime, tiempo, id_motivo, descripcion, movimientocol)
 						VALUES (0,'$id_envio',4,'$id_zona','$id_mensajero','$id_usr','$fecha_date','$fecha_datetime','$marca','4','ENTREGA EFECTIVA',NULL) ";
 				 
@@ -1040,7 +1040,7 @@ class model_con extends Db
 			$msj="Insertado";
 
 			//Actualizamos el encabezado al final
-			$upd_l2="UPDATE rastreo.manifiesto
+			$upd_l2="UPDATE rastreobam.manifiesto
 						SET estado=2
 						WHERE n_manifiesto='$numid'
 						AND estado=1";	
@@ -1104,7 +1104,7 @@ class model_con extends Db
 		//Por id manifiesto y posicion actualizamo
 		if($existe_vineta==1){
 			//ACtualizamos el estado de la posicion en especifico del manifieso
-			$upd="UPDATE rastreo.manifiesto_linea
+			$upd="UPDATE rastreobam.manifiesto_linea
 					SET id_chk=5,estado=2
 					WHERE n_manifiesto='$numid'
 					AND posicion=$posicion
@@ -1121,7 +1121,7 @@ class model_con extends Db
 			}
 	
 			//ACtualizamos el estado de la guia
-			$upd_g="UPDATE rastreo.guia
+			$upd_g="UPDATE rastreobam.guia
 						SET estado=6
 					WHERE id_guia='$id_guia'
 					AND  estado=4";
@@ -1136,7 +1136,7 @@ class model_con extends Db
 			}
 
 			//Luego se inserta el AR (Arribo) en movimiento
-			$ing="INSERT INTO rastreo.movimiento 
+			$ing="INSERT INTO rastreobam.movimiento 
 						(id_movimiento,id_envio,id_chk,id_zona,id_mensajero,id_usr, fecha_date, fecha_datetime, tiempo, id_motivo, descripcion, movimientocol)
 					VALUES (0,'$id_envio',5,'$id_zona','$id_mensajero','$id_usr','$fecha_date','$fecha_datetime','$marca','$id_motivo','DEVOLUCION',NULL) ";
 
@@ -1174,7 +1174,7 @@ class model_con extends Db
         $id_cli =$_SESSION['shi_codigo'];
 	
   	    $sql = "SELECT *
-					FROM rastreo.correlativo 
+					FROM rastreobam.correlativo 
                     WHERE id_cli='$id_cli'
                     AND estado=1";
 		//echo $sql;
@@ -1192,7 +1192,7 @@ class model_con extends Db
 
 		if($seq_new > $seq_ini && $seq_new < $seq_fin){
 			//Actualizamos el nuevo registro seq en la tabla
-			$upd="UPDATE rastreo.correlativo
+			$upd="UPDATE rastreobam.correlativo
 					SET seq=$seq_new
 					WHERE id_cli='$id_cli'
                     AND estado=1 ";
@@ -1235,7 +1235,7 @@ class model_con extends Db
 					fn_catNombre(entero1) as categoria,
 					fn_ccostoDirNombre(ori_ccosto) as ccDirOri,
 					fn_ccostoDirNombre(des_ccosto) as ccDirdes
-			FROM rastreo.guia 
+			FROM rastreobam.guia 
 			WHERE barra='$vineta'
 			ORDER BY id_envio";
 */
@@ -1254,7 +1254,7 @@ class model_con extends Db
 	fn_ccostoDirNombre(ori_ccosto) as ccDirOri,
 	fn_ccostoDirNombre(des_ccosto) as ccDirdes,
     c.ccosto_codigo
-	FROM rastreo.guia g inner join centro_costo c
+	FROM rastreobam.guia g inner join centro_costo c
     on g.des_ccosto=c.id_ccosto
     WHERE g.barra='$vineta'
 	ORDER BY g.id_envio";*/
@@ -1270,7 +1270,7 @@ class model_con extends Db
 	s.usr_nombre AS usr_ori,
 	g.fecha_datetime,barra,comentario,destinatario,
 	g.char1 as tipo
-	FROM rastreo.guia g inner join usuario s
+	FROM rastreobam.guia g inner join usuario s
     on g.id_usr=s.id_usr
     WHERE g.barra='$vineta'";
 
@@ -1297,7 +1297,7 @@ class model_con extends Db
     `detalle_acuse`.`agencia`,
     `detalle_acuse`.`descripcion`,
     `detalle_acuse`.`categoría`
-    FROM `rastreo`.`detalle_acuse`
+    FROM `rastreobam`.`detalle_acuse`
     WHERE barra='$vineta'";
 
         $stmt=$db->consultar($sql);

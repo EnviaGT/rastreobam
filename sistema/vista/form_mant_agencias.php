@@ -71,8 +71,12 @@
               <!---->
               <div class="card-footer">
                 <button id="submitBtn" type="button" class="btn btn-outline-dark " data-toggle="modal" data-target="#modal-default"
-                        onclick="procesarMantAgencia(formulario.cli_id.value,formulario.id_agencia.value,formulario.codigo_agencia.value,
-                        formulario.nombre_agencia.value,formulario.direccion_agencia.value,formulario.telefono_agencia.value)">
+                        onclick="procesarMantAgencia(formulario.cli_id.value,
+                                                      formulario.id_agencia.value,
+                                                      formulario.codigo_agencia.value,
+                                                      formulario.nombre_agencia.value,
+                                                      formulario.direccion_agencia.value,
+                                                      formulario.telefono_agencia.value)">
                   Registrar Agencia
                 </button>
               </div>
